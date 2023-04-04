@@ -31,38 +31,26 @@ permissions:
   contents: read
 
 jobs:
-    build:
-        runs-on: windows-latest
-        steps:
-            - name: Checkout the repo
-              uses: actions/checkout@v3
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
 
-            - name: Set up Node.js version
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "18.x"
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
 
-            - name: Cache node modules
-              id: cache-node-modules
-              uses: actions/cache@v3
-              with:
-                  path: ./node_modules
-                  key: weather-${{ hashFiles('**/package.json', '**/yarn.lock') }}
-                  restore-keys: |
-                      weather-
+    - name: npm install
+      run: |
+        npm install
 
-            - if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-              name: Install node modules
-              uses: borales/actions-yarn@v4
-              with:
-                  cmd: install
-
-            - name: Upload artifact for deployment job
-              uses: actions/upload-artifact@v3
-              with:
-                  name: node-app
-                  path: .
-
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        path: .
 
   deploy:
     permissions:
