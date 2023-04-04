@@ -1,0 +1,120 @@
+/* BODY  */
+#bodyID {
+    background-color: #F3E8FF;
+    text-align: center;
+    display: flex;
+}
+
+
+/* Box shadow class  */
+.addShadow {
+    box-shadow: 2px 2px grey;
+}
+
+/* heading  */
+.dayHeading {
+    width: 20rem;
+    text-align: center;
+    margin: auto;
+}
+
+.mainHeading {
+    font-family: 'Delicious Handrawn', cursive;
+    font-size: 5rem;
+}
+.dateHeading {
+    font-family: 'Dosis', sans-serif;
+    color: white;
+    font-size: 2.5rem;
+}
+
+#dateHeading {
+    width: 19rem;
+    height: 3.5rem;
+    background-color: #C1AEFC;
+    border-radius: 5px;
+    border: 1px;
+    border-color: black;
+    padding-bottom: 2rem;
+}
+
+.listItems {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+#removeBtn{
+    width: 1.5rem;
+    height: 1.5rem;
+    background: url('/images/Group_1.png') no-repeat;
+    background-size: 100%;
+    border: 0;
+    
+}
+
+/* Add Item Form  */
+.addItemForm {
+    padding: 3rem;
+    
+    
+}
+
+.inputItemBox {
+    border-radius: 5px;
+    margin: 1px;
+    width: 20rem;
+    height: 3rem;
+    font-size: 2rem;
+
+}
+
+
+/* Add item button */
+.addItemBtn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 0;
+    background-color: #ADE792;
+}
+
+
+
+.removeImg{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+
+
+
+/* LIST ITEM  */
+
+
+.hrDivider {
+    padding: 0;
+    margin: 0;
+}
+
+.tableOfItem {
+    background-color: white;
+    border-radius: 5px;
+    
+}
+
+.listItems {
+    /* padding: 0.5rem 0rem; */
+    width: 20rem;
+    height: 3rem;
+    font-size: 2rem;
+    text-align: center;
+    border-top: 1px;
+}
+
+
+
+
+#listItems {
+    border-bottom: 1px;
+    padding: 0.5rem;
+
+}
