@@ -52,11 +52,24 @@ jobs:
         name: node-app
         path: .
 
+
+  name: AzureLoginSample
+  jobs:
+    build-and-deploy:
+      runs-on: ubuntu-latest
+      steps:
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - run: |
+          az webapp list --query "[?state=='Running']"
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -70,6 +83,6 @@ jobs:
       id: deploy-to-webapp
       with:
         app-name: "todolist90"
-        slot-name: "Production"
+        slot-name: "Developement"
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
