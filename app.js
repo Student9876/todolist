@@ -3,8 +3,8 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const _ = require("lodash")
 const app = express()
-
 const dotenv = require("dotenv")
+dotenv.config()
 
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
@@ -87,7 +87,6 @@ app.post("/", (req, res) => {
             foundList.items.push(item)
             foundList.save()
             res.redirect("/" + listName)
-            console.log(foundList)
         })
     }
 })
@@ -107,7 +106,6 @@ app.get("/:customListName", (req, res) => {
         }
         else {
             // Show the existing list 
-            console.log(result.items)
             res.render("list", { listTitle: customListName, newListItems: result.items })
             // res.redirect("/"+customListName)
         }
