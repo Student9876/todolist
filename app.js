@@ -3,12 +3,18 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const _ = require("lodash")
 const app = express()
+
+const dotenv = require("dotenv")
+
 app.use(express.static("public"))
 app.set('view engine', 'ejs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 // Mongoose 
-const uri = "mongodb+srv://shouvik9876:9674350711%40@cluster0.j3d6lug.mongodb.net/todolistDB"
+
+const pass = process.env.PASS
+const user_id = process.env.USER_ID
+const uri = "mongodb+srv://" + user_id + ":" + pass + "@cluster0.j3d6lug.mongodb.net/todolistDB"
 mongoose.connect(uri, { useNewUrlParser: true })
 
 
@@ -119,7 +125,7 @@ app.post("/delete", (req, res) => {
         //         name: "Today",
         //         items: result.name
         //     })
-            
+
         // })
         Item.findByIdAndRemove(itemID).then((err) => {
             if (err) { console.log(err) }
@@ -127,10 +133,10 @@ app.post("/delete", (req, res) => {
         })
         res.redirect("/")
     } else {
-        List.findOneAndUpdate({name:listName}, {$pull:{items:{_id:itemID}}}).then((err) => {
+        List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: itemID } } }).then((err) => {
             if (err) { console.log(err) }
             else { console.log("Item removed sucessfully") }
-            res.redirect("/"+listName)
+            res.redirect("/" + listName)
         })
     }
 })
