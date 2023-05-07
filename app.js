@@ -1,51 +1,138 @@
 const express = require("express")
 const bodyParser = require("body-parser")
-
-
+const mongoose = require("mongoose")
+const _ = require("lodash")
 const app = express()
 app.use(express.static("public"))
-
-
-var items = []
-app.use(bodyParser.urlencoded({ extended: true }))
-
-var indexOfItem
-
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 app.set('view engine', 'ejs')
+
+app.use(bodyParser.urlencoded({ extended: true }))
+// Mongoose 
+const uri = "mongodb+srv://shouvik9876:9674350711%40@cluster0.j3d6lug.mongodb.net/todolistDB"
+mongoose.connect(uri, { useNewUrlParser: true })
+
+
+// List for root route 
+const newItemSchema = {
+    name: String
+}
+const Item = mongoose.model("item", newItemSchema)
+
+
+
+
+const defaultItem1 = new Item({
+    name: "Welcome to your todo list!"
+})
+const defaultItem2 = new Item({
+    name: "Hit the + button to add a new item."
+})
+const defaultItem3 = new Item({
+    name: "Hit this to delete an item ---->"
+})
+
+const defaultItems = [defaultItem1, defaultItem2, defaultItem3]
+
+
+
+// Lists for other routes 
+const listSchema = {
+    name: String,
+    items: [newItemSchema]
+}
+const List = mongoose.model("list", listSchema)
+
+const deletedItemsSchema = {
+    name: String,
+    items: [newItemSchema]
+}
+const completedItems = mongoose.model("delItem", deletedItemsSchema)
 
 
 app.get("/", (req, res) => {
-    var today = new Date()
-
-    var options = {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long'
-    }
-
-    var date = today.toLocaleDateString("en-US", options)
-    res.render('list', {
-        kindOfDay: date,
-        newListItems: items
+    Item.find().then((items) => {
+        if (items.length === 0) {
+            Item.insertMany(defaultItems)
+            res.redirect("/")
+        } else {
+            res.render('list', {
+                listTitle: "Today",
+                newListItems: items,
+            })
+        }
     })
 })
 
 
+
 app.post("/", (req, res) => {
-    var item = req.body.newItem
-    console.log(item)
-    items.push(item)
-    res.redirect("/")
-    // res.render("list", { newListItem: item })
+    const itemName = req.body.newItem
+    const listName = req.body.list
+
+    const item = new Item({
+        name: itemName
+    })
+    if (listName === "Today") {
+        item.save()
+        res.redirect("/")
+
+    } else {
+        List.findOne({ name: listName }).then((foundList) => {
+            foundList.items.push(item)
+            foundList.save()
+            res.redirect("/" + listName)
+            console.log(foundList)
+        })
+    }
 })
 
 
-app.post("/removeItem", (req, res) => {
-    indexOfItem = req.body.index
-    items.splice(indexOfItem, 1)
-    res.redirect("/")
-    console.log(indexOfItem)
+app.get("/:customListName", (req, res) => {
+    const customListName = _.capitalize(req.params.customListName)
+    List.findOne({ name: customListName }).then((result) => {
+        if (result === null) {
+            // Create a new list 
+            const list = new List({
+                name: customListName,
+                items: defaultItems
+            })
+            list.save()
+            res.redirect("/" + customListName)
+        }
+        else {
+            // Show the existing list 
+            console.log(result.items)
+            res.render("list", { listTitle: customListName, newListItems: result.items })
+            // res.redirect("/"+customListName)
+        }
+    })
+})
+
+
+// Deleting Item
+app.post("/delete", (req, res) => {
+    const itemID = req.body.checkbox
+    const listName = req.body.listName
+    if (listName === "Today") {
+        // Item.findOne({_id: itemID}).then((result)=>{
+        //     const completed = new completedItems({
+        //         name: "Today",
+        //         items: result.name
+        //     })
+            
+        // })
+        Item.findByIdAndRemove(itemID).then((err) => {
+            if (err) { console.log(err) }
+            else { console.log("Item removed sucessfully") }
+        })
+        res.redirect("/")
+    } else {
+        List.findOneAndUpdate({name:listName}, {$pull:{items:{_id:itemID}}}).then((err) => {
+            if (err) { console.log(err) }
+            else { console.log("Item removed sucessfully") }
+            res.redirect("/"+listName)
+        })
+    }
 })
 
 
