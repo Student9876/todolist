@@ -1,50 +1,59 @@
 <%- include('header') %>
-<div class="container-fluid bigContainer">
-    <div class="dayHeading">
-                <h1 class="mainHeading">To do list</h1>
-                <center><div id="dateHeading" class="addShadow"><h1
-                            class="dateHeading"><%= listTitle %>
-                            </h1></div></center>
-                </div>
-                <div>
-                    <center>
-                        <br>
-                        <table class="tableOfItem addShadow">
-                            <div class="list">
-                                <% newListItems.forEach((item)=>{%>
+        <center>
+        <div class="dayHeading">
+            <h1 class="mainHeading">To do list</h1>
+                <div id="dateHeading" class="addShadow"><h1
+                        class="dateHeading"><%= listTitle %>
+                        </h1></div>
+            </div>
+            <br>
+            <div>
+                <br>
+                    <table class="tableOfItem addShadow">
+                        <div class="list">
+                            <% newListItems.forEach((item)=>{%>
+                                <tr>
+                                    <td>
+                                        <div id="listItems">
+                                            <div class="listItems"><%=item.name%><hr
+                                                        class="hrDivider"></div>
+                                            </td>
+                                            <td style="width:3rem;height:3rem;">
+                                                <form id="removeBtn"
+                                                    action="/delete"
+                                                    method="post">
+                                                    <input type="checkbox"
+                                                        value="<%=item._id %>"
+                                                    name="checkbox"
+                                                    onChange="this.form.submit()">
+                                                    <input type="hidden"
+                                                        name="listName" value="<%=
+                                                        listTitle%>"></input>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                    </div>
                                     <tr>
                                         <td>
-                                            <div id="listItems">
-                                                <!-- <div id="currentTime"></div> -->
-                                                <div class="listItems"><%=item.name%><hr
-                                                            class="hrDivider"></div>
-                                                </td>
-                                                <td style="width:3rem;height:3rem;">
-                                                    <form action="/delete" method="post">
-                                                        <input type="checkbox" value="<%=item._id %>" name="checkbox" onChange="this.form.submit()">
-                                                        <input type="hidden" name="listName" value="<%= listTitle%>"></input>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <% }) %>
-                                        <tr>
-                                            <td>
-                                                <form action="/" method="post"
+                                            <form action="/" method="post"
                                                 class="addItemForm">
-                                                        <input class="inputItemBox"
-                                                            type="text"
-                                                            name="newItem" placeholder=" Add New Task" autocomplete="off">
-                                                        <button type="submit" class="addItemBtn addShadow" name="list" value="<%= listTitle %>"">Add</button>
-                                                            <hr
-                                                            class="hrDivider">
-                                                    </form>
-                                            </td>
-                                        </tr>
-                                    </div>
-                                </table>    
-                            </center>
-                            </div>
-                        </div>
-                        
-<%- include('footer') %>
+                                                <input class="inputItemBox"
+                                                    type="text"
+                                                    name="newItem" placeholder="
+                                                    Add New Task"
+                                                    autocomplete="off">
+                                                <button type="submit"
+                                                    class="addItemBtn addShadow"
+                                                    name="list" value="<%=
+                                                    listTitle %>"">Add</button>
+                                                <hr
+                                                    class="hrDivider">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </table>
+                        </center>
+
+                <%- include('footer') %>

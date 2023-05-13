@@ -2,7 +2,6 @@
 #bodyID {
     background-color: #F3E8FF;
     text-align: center;
-    display: flex;
 }
 
 
@@ -14,19 +13,21 @@
 /* heading  */
 .dayHeading {
     width: 20rem;
-    text-align: center;
-    margin: auto;
+    /* text-align: center; */
 }
 
 .mainHeading {
     font-family: 'Delicious Handrawn', cursive;
     font-size: 5rem;
 }
+
 .dateHeading {
     font-family: 'Rajdhani', sans-serif;
     color: white;
     font-size: 2.5rem;
 }
+
+
 
 #dateHeading {
     width: 19rem;
@@ -36,17 +37,21 @@
     border: 1px;
     border-color: black;
     padding-bottom: 2rem;
+    
 }
 
 .listItems {
     font-family: 'Rajdhani', sans-serif;
 }
 
+#tableContainer {
+    padding: 0 auto;
+    margin: 0;
+}
+
 #removeBtn{
     width: 1.5rem;
     height: 1.5rem;
-    background: url('/images/Group_1.png') no-repeat;
-    background-size: 100%;
     border: 0;
     
 }
@@ -54,8 +59,6 @@
 /* Add Item Form  */
 .addItemForm {
     padding: 0.5rem 2rem;
-    
-    
 }
 
 .inputItemBox {
@@ -63,6 +66,7 @@
     padding: 0;
     width: auto;
     height: 3rem;
+    font-family:  'Rajdhani', sans-serif;
     font-size: 2rem;
 }
 
@@ -86,11 +90,7 @@
 }
 
 
-
-
 /* LIST ITEM  */
-
-
 .hrDivider {
     padding: 0;
     margin: 0;
@@ -99,7 +99,8 @@
 .tableOfItem {
     background-color: white;
     border-radius: 5px;
-    
+    margin: 1rem;
+    padding: 1rem;
 }
 
 .listItems {
@@ -120,4 +121,14 @@
 
 .removedItemEffect {
     text-decoration: line-through #5C469C;
+}
+
+
+@media (max-width: 500px){
+    .tableOfItem {
+        background-color: white;
+        border-radius: 5px;
+        margin: 0.5rem;
+        padding: 0.5rem;
+    }
 }
